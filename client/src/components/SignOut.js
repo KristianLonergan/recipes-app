@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useApolloClient } from "@apollo/react-hooks";
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 
 const SignOut = () => {
 

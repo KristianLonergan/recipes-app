@@ -64,13 +64,13 @@ const AddRecipe = props => {
   };
 
   return (
-    <div className={[classes.AddRecipe, 'container'].join(' ')}>
+    <div className={[classes.AddRecipe, 'container pt-md-5'].join(' ')}>
       <h1 className={classes.Heading}>Add Recipe</h1>
       <p className={['lead text-center', classes.Paragraph].join(' ')}>
         * All fields are required
       </p>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="pt-md-5">
         <Form.Group controlId="recipeName">
           <Form.Control
             type="text"

@@ -24,14 +24,15 @@ const Search = props => {
   }
 
   return (
-    <div className="container">
-        <h2>Recipes</h2>
+    <div className="container pt-md-5">
+        <h1 className="pb-md-5" style={{ textAlign: 'center' }}>Search for Recipes</h1>
         <FormControl
           placeholder="Search recipes"
           aria-label="Search recipes"
           onChange={onChangeHandler}
         />
       {searchResults.map(recipe => <SearchItem key={recipe._id} {...recipe} />)}
+      {searchResults.length === 0 && <p style={{ textAlign: 'center' }}>No results found</p>}
     </div>
   );
 };

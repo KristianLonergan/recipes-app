@@ -55,7 +55,7 @@ const SignUp = props => {
   console.log(data);
 
   return (
-    <div className={[classes.SignUp, 'container'].join(' ')}>
+    <div className={[classes.SignUp, 'container pt-md-5'].join(' ')}>
       <h1 className={classes.Heading}>Sign up</h1>
       <p className={["lead text-center", classes.Paragraph].join(' ')}>* All fields are required</p>
       <Form onSubmit={handleSubmit}>

@@ -4,8 +4,7 @@ import UserRecipes from './UserRecipes';
 import withAuth from '../../hoc/withAuth';
 
 const Profile = ({session}) => (
-  <div>
-    Profile
+  <div className="container pt-md-5">
     <UserInfo session={session} />
     <UserRecipes username={session.getCurrentUser.username} />
   </div>
