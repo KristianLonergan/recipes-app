@@ -86,7 +86,7 @@ const LikeRecipe = props => {
 
   return (
     props.session.getCurrentUser && (
-      <Button variant="primary" onClick={likeHandler}>
+      <Button variant="danger" onClick={likeHandler}>
         {liked ? 'Unlike' : 'Like'}
       </Button>
     )

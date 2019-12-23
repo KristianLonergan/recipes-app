@@ -1,37 +1,16 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
+import styles from './Profile.module.css';
 
-
-const formatDate = (date) => {
-
+const formatDate = date => {
   const dateAsInteger = parseInt(date);
   const formattedDate = moment.utc(dateAsInteger).format('lll');
   return formattedDate;
-
-}
+};
 
 const UserInfo = ({ session }) => {
-
-  // return (
-  //   <div>
-  //     <h3>User Info</h3>
-  //     <p>Username: {session.getCurrentUser.username}</p>
-  //     <p>Email: {session.getCurrentUser.email}</p>
-  //     <p>Join Date: {joinDate.toString()}</p>
-  //     <ul>
-  //       <h3>{session.getCurrentUser.username}'s Favourites</h3>
-  //       {session.getCurrentUser.favourites.map(recipe => {
-  //         return <li key={recipe._id}>{recipe.name}</li>;
-  //       })}
-  //       {!session.getCurrentUser.favourites.length && (
-  //         <p>You have no favourites currently. Go add some!</p>
-  //       )}
-  //     </ul>
-  //   </div>
-  // );
-
-
   return (
     <Card>
       <Card.Header>
@@ -39,17 +18,33 @@ const UserInfo = ({ session }) => {
       </Card.Header>
       <Card.Body>
         <blockquote className="blockquote mb-0">
-          <p> <strong>Username:</strong> <em>{session.getCurrentUser.username}</em></p>
-          <p> <strong>Email:</strong> <em>{session.getCurrentUser.email}</em></p>
-          <p> <strong>Join Date:</strong> <em>
-            {formatDate(session.getCurrentUser.joinDate)}
-          
-          </em></p>
-          <p> <strong>Favourite recipes:</strong></p>
-          <ul>
-            
+          <p>
+            {' '}
+            <strong>Username:</strong>{' '}
+            <em>{session.getCurrentUser.username}</em>
+          </p>
+          <p>
+            {' '}
+            <strong>Email:</strong> <em>{session.getCurrentUser.email}</em>
+          </p>
+          <p>
+            {' '}
+            <strong>Join Date:</strong>{' '}
+            <em>{formatDate(session.getCurrentUser.joinDate)}</em>
+          </p>
+          <p>
+            {' '}
+            <strong>Favourite recipes:</strong>
+          </p>
+          <ul className={styles.Favourites}>
             {session.getCurrentUser.favourites.map(recipe => {
-              return <li key={recipe._id}>{recipe.name}</li>;
+              return (
+                <li key={recipe._id}>
+                  <Link to={`/recipes/${recipe._id}`}>
+                    <h4>{recipe.name}</h4>
+                  </Link>
+                </li>
+              );
             })}
             {!session.getCurrentUser.favourites.length && (
               <p>You have no favourites currently. Go add some!</p>

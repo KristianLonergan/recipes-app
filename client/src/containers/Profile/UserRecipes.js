@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import Button from 'react-bootstrap/Button';
@@ -13,12 +13,21 @@ import {
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import UpdateRecipeModal from '../Profile/UpdateRecipeModal';
+
 const UserRecipes = ({ username }) => {
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectRecipe, setSelectedRecipe] = useState({});
   const { data, loading, error } = useQuery(GET_USER_RECIPES, {
     variables: {
       username
     }
   });
+
+  const closeModal = () => {
+    setShowModal(false);
+  }
 
   const [deleteRecipe] = useMutation(DELETE_RECIPE, {
     update(cache, { data: { deleteUserRecipe } }) {
@@ -42,8 +51,6 @@ const UserRecipes = ({ username }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error occurred</div>;
 
-  console.log('Users recipes', data);
-
   const handleDelete = _id => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this recipe?'
@@ -62,25 +69,10 @@ const UserRecipes = ({ username }) => {
     }
   };
 
-  // return (
-  //   <div className="pt-md-5">
-  //     <h3>Your Recipes</h3>
-  //     {!data.getUserRecipes.length && <p>You have not added any recipes</p>}
-  //     {data.getUserRecipes.map(recipe => {
-  //       return (
-  //         <li key={recipe._id}>
-  //           <Link to={`/recipes/${recipe._id}`}>
-  //             <h4>{recipe.name}</h4>
-  //           </Link>
-  //           <p>Likes: {recipe.likes}</p>
-  //           <Button variant="danger" onClick={() => handleDelete(recipe._id)}>
-  //             Delete
-  //           </Button>
-  //         </li>
-  //       );
-  //     })}
-  //   </div>
-  // );
+  const showUpdateModal = (recipe) => {
+    setSelectedRecipe(recipe);
+    setShowModal(true);
+  }
 
   return (
     <div className="pt-md-5">
@@ -118,6 +110,16 @@ const UserRecipes = ({ username }) => {
                         >
                           Delete
                         </Button>
+                        <Button
+                          style={{
+                            position: 'absolute',
+                            bottom: '25px'
+                          }}
+                          variant="success"
+                          onClick={() => showUpdateModal(recipe)}
+                        >
+                          Update
+                        </Button>
                       </Col>
                     </Row>
                     <hr />
@@ -128,6 +130,7 @@ const UserRecipes = ({ username }) => {
           </blockquote>
         </Card.Body>
       </Card>
+      <UpdateRecipeModal show={showModal} close={closeModal} {...selectRecipe}/>
     </div>
   );
 };

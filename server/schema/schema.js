@@ -3,6 +3,7 @@ exports.typeDefs = `
   type Recipe {
     _id: ID,
     name: String! 
+    imageUrl: String!
     category: String!
     description: String!
     instructions: String!
@@ -36,7 +37,7 @@ exports.typeDefs = `
   }
 
   type Mutation {
-    addRecipe(name: String!, category: String!, description: String!, instructions: String!, username: String): Recipe
+    addRecipe(name: String!, imageUrl: String!, category: String!, description: String!, instructions: String!, username: String): Recipe
 
     deleteUserRecipe(_id: ID!): Recipe
 
@@ -47,6 +48,8 @@ exports.typeDefs = `
     likeRecipe(_id: ID!, username: String!): Recipe
 
     unlikeRecipe(_id: ID!, username: String!): Recipe
+
+    updateUserRecipe(_id: ID!, name: String!, imageUrl: String!, description: String!, category: String!): Recipe
   }
 
 `;

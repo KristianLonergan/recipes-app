@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Error from '../../components/Error/Error';
@@ -98,6 +98,7 @@ const SignUp = props => {
         <Button disabled={loading || isFormValid()} variant="primary" type="submit" block>
           Submit
         </Button>
+        <Link to="/signin">Already have an account ? Sign in here!</Link>
         {error && <Error error={error.message}/>}
       </Form>
     </div>

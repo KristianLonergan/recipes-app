@@ -58,11 +58,12 @@ exports.resolvers = {
   Mutation: {
     addRecipe: async (
       parent,
-      { name, description, category, instructions, username },
+      { name, imageUrl, description, category, instructions, username },
       { Recipe }
     ) => {
       const newRecipe = new Recipe({
         name,
+        imageUrl,
         description,
         category,
         instructions,
@@ -79,6 +80,18 @@ exports.resolvers = {
       const recipe = await Recipe.findOneAndUpdate({ _id }, { $inc: { likes: -1 } });
       const user = await User.findOneAndUpdate({ username }, { $pull: { favourites: _id } });
       return recipe;
+    },
+    updateUserRecipe: async (
+      root,
+      { _id, name, imageUrl, category, description },
+      { Recipe }
+    ) => {
+      const updatedRecipe = await Recipe.findOneAndUpdate(
+        { _id },
+        { $set: { name, imageUrl, category, description } },
+        { new: true }
+      );
+      return updatedRecipe;
     },
     deleteUserRecipe: async (parent, { _id }, { Recipe }) => {
       const recipe = await Recipe.findOneAndRemove({ _id });

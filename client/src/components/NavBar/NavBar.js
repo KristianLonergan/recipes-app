@@ -1,44 +1,20 @@
 import React from 'react';
 import NavLink from './NavLink';
 import SignOut from '../SignOut';
+import { useHistory } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import ButtonLink from '../UI/Button/ButtonLink';
+import classes from './NavBar.module.css'
 
-const NavBar = ({session}) => {
+const NavBar = ({ session }) => {
+  let history = useHistory();
 
-  return session && session.getCurrentUser ? <NavBarAuth /> : <NavBarUnAuth /> 
+  let navItems;
 
-};
-
-const NavBarUnAuth = () => (
-  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-    <Navbar.Brand>
-      <i className="fas fa-utensils"></i> Recipes
-    </Navbar.Brand>
-    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-    <Navbar.Collapse id="responsive-navbar-nav">
-      <Nav className="mr-auto" />
-
-      <Nav>
-        <NavLink label="Home" to="/" />
-        <NavLink label="Search" to="/search" />
-        <ButtonLink path='/signin' label="Sign In"/>
-        {/* <NavLink label="Sign In" to="/signin" />
-        <NavLink label="Sign Up" to="/signup" /> */}
-      </Nav>
-    </Navbar.Collapse>
-  </Navbar>
-);
-
-const NavBarAuth = () => (
-  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-    <Navbar.Brand>
-      <i className="fas fa-utensils"></i> Recipes
-    </Navbar.Brand>
-    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-    <Navbar.Collapse id="responsive-navbar-nav">
-      <Nav className="mr-auto">
+  if (session && session.getCurrentUser) {
+    navItems = (
+      <React.Fragment>
+        <Nav className="mr-auto">
         <NavLink label="Home" to="/" />
         <NavLink label="Search" to="/search" />
         <NavLink label="Add Recipe" to="/recipe/add" />
@@ -48,8 +24,31 @@ const NavBarAuth = () => (
       <Nav>
         <SignOut />
       </Nav>
-    </Navbar.Collapse>
-  </Navbar>
-);
+      </React.Fragment>
+    );
+  } else {
+    navItems = (
+      <React.Fragment>
+        <Nav className="mr-auto" />
+
+        <Nav>
+          <NavLink label="Home" to="/" />
+          <NavLink label="Search" to="/search" />
+          <ButtonLink path="/signin" label="Sign In" />
+        </Nav>
+      </React.Fragment>
+    );
+  }
+
+  return (
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Brand className={classes.HomeIcon} onClick={() => history.push('/')}>
+        <i className="fas fa-utensils"></i> Recipes
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">{navItems}</Navbar.Collapse>
+    </Navbar>
+  );
+};
 
 export default NavBar;
