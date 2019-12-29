@@ -33,11 +33,11 @@ mongoose
 //initialises
 const app = express();
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true
+// };
+app.use(cors("*"));
 
 //Setup jwt authentication middleware
 app.use(async (req, res, next) => {
@@ -71,13 +71,14 @@ app.use(
   }))
 );
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
-
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+const PORT = process.env.PORT || 4444;
+
+app.listen(PORT, () => {
+  console.log(`Server listening on PORT ${PORT}`);
+});
