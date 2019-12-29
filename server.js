@@ -19,8 +19,6 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
-const PORT = process.env.PORT || 5000;
-
 //connects to database
 mongoose
   .connect(process.env.MONGO_URI, {
