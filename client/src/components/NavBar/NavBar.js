@@ -1,48 +1,54 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import NavLink from './NavLink';
-import SignOut from '../SignOut';
+import SignOut from '../SignOut/SignOut';
 import { useHistory } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 import ButtonLink from '../UI/Button/ButtonLink';
-import classes from './NavBar.module.css'
+import { SessionContext } from '../../context/session';
+import classes from './NavBar.module.css';
 
-const NavBar = ({ session }) => {
-  let history = useHistory();
-
+const NavBar = () => {
+  
   let navItems;
+  let history = useHistory();
+  const sessionContext = useContext(SessionContext);
 
-  if (session && session.getCurrentUser) {
+  if (sessionContext.currentUser) {
     navItems = (
-      <React.Fragment>
+      <>
         <Nav className="mr-auto">
-        <NavLink label="Home" to="/" />
-        <NavLink label="Search" to="/search" />
-        <NavLink label="Add Recipe" to="/recipe/add" />
-        <NavLink label="Profile" to="/profile" />
-      </Nav>
+          <NavLink label="Home" to="/" />
+          <NavLink label="Search" to="/search" />
+          <NavLink label="Add Recipe" to="/recipe/add" />
+          <NavLink label="Profile" to="/profile" />
+        </Nav>
 
-      <Nav>
-        <SignOut />
-      </Nav>
-      </React.Fragment>
+        <Nav>
+          <SignOut />
+        </Nav>
+      </>
     );
   } else {
     navItems = (
-      <React.Fragment>
-        <Nav className="mr-auto" />
-
-        <Nav>
+      <>
+        <Nav className="mr-auto">
           <NavLink label="Home" to="/" />
           <NavLink label="Search" to="/search" />
+        </Nav>
+
+        <Nav>
           <ButtonLink path="/signin" label="Sign In" />
         </Nav>
-      </React.Fragment>
+      </>
     );
   }
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Navbar.Brand className={classes.HomeIcon} onClick={() => history.push('/')}>
+      <Navbar.Brand
+        className={classes.HomeIcon}
+        onClick={() => history.push('/')}
+      >
         <i className="fas fa-utensils"></i> Recipes
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />

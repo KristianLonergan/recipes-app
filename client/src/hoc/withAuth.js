@@ -1,15 +1,14 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { GET_CURRENT_USER } from '../queries/';
+import { SessionContext } from '../context/session';
 
-const withAuth = conditionFunc => Component => props => {
-  const { loading, error, data } = useQuery(GET_CURRENT_USER);
+const withAuth = Component => props => {
+  const { currentUser, loading, error } = useContext(SessionContext);
 
   if (loading) return null;
   if (error) return null;
 
-  return conditionFunc(data) ? <Component {...props} /> : <Redirect to="/" />;
+  return currentUser ? <Component {...props} /> : <Redirect to="/" />;
 };
 
 export default withAuth;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Home from './containers/Home/Home';
-import SignIn from './containers/Auth/SignIn';
-import SignUp from './containers/Auth/SignUp';
-import Search from './containers/Search/Search';
-import AddRecipe from './containers/Recipe/AddRecipe';
-import RecipePage from './components/Recipe/RecipePage';
-import Profile from './containers/Profile/Profile';
+import Home from './components/Home/Home';
+import SignIn from './components/Auth/SignIn/SignIn';
+import SignUp from './components/Auth/SignUp/SignUp';
+import Search from './components/Search/Search';
+import AddRecipe from './components/Recipe/AddRecipe/AddRecipe';
+import RecipePage from './components/Recipe/RecipePage/RecipePage';
+import Profile from './components/Profile/Profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = props => {
@@ -14,28 +14,14 @@ const App = props => {
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/search" component={Search} />
-      <Route path="/recipe/add" render={() => <AddRecipe session={props.session} />} />
+      <Route path="/recipe/add" component={AddRecipe} />
       <Route path="/recipes/:_id" component={RecipePage} />
-      <Route path="/profile" render={() => <Profile session={props.session} />} />
-      <Route path="/signin" render={() => <SignIn refetch={props.refetch} />} />
-      <Route path="/signup" render={() => <SignUp refetch={props.refetch} />} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/signin" component={SignIn} />
+      <Route path="/signup" component={SignUp}  />
       <Redirect to="/" />
     </Switch>
   );
 };
-// const App = props => {
-//   return (
-//     <Switch>
-//       <Route path="/" exact component={Home} />
-//       <Route path="/search" component={Search} />
-//       <Route path="/recipe/add" component={AddRecipe} />
-//       <Route path="/recipes/:_id" component={RecipePage} />
-//       <Route path="/profile" component={Profile} />
-//       <Route path="/signin" render={() => <SignIn refetch={props.refetch} />} />
-//       <Route path="/signup" render={() => <SignUp refetch={props.refetch} />} />
-//       <Redirect to="/" />
-//     </Switch>
-//   );
-// };
 
 export default App;

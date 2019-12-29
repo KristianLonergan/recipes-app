@@ -1,0 +1,14 @@
+.Actions {
+  top: 10px;
+}
+
+.DeleteBtn {
+  position: absolute;
+  right: 10px;
+  bottom: 25px;
+}
+
+.UpdateBtn {
+  position: absolute;
+  bottom: 25px;
+}

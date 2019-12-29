@@ -10,6 +10,7 @@ export const GET_ALL_RECIPES = gql`
       description
       category
       instructions
+      likes
     }
   }
 `;
@@ -38,6 +39,8 @@ export const SEARCH_RECIPES = gql`
       _id
       name
       likes
+      imageUrl
+      description
     }
   }
 `;
@@ -65,6 +68,7 @@ export const UPDATE_USER_RECIPE = gql`
     $imageUrl: String!
     $description: String!
     $category: String!
+    $instructions: String!
   ) {
     updateUserRecipe(
       _id: $_id
@@ -72,6 +76,7 @@ export const UPDATE_USER_RECIPE = gql`
       imageUrl: $imageUrl
       description: $description
       category: $category
+      instructions: $instructions
     ) {
       ...CompleteRecipe
     }
