@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config({ path: 'variables.env' });
 const Recipe = require('./server/models/Recipe');
 const User = require('./server/models/User');
@@ -54,7 +55,7 @@ app.use(async (req, res, next) => {
 });
 
 //Create GraphiQL application
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+// app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 //Connect schemas with GraphQL
 app.use(
@@ -74,9 +75,9 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-//Bring in graphql express middleware
-
-//Bring in graphql express middleware
-// const { ApolloServer } = require('apollo-server-express');
-// const server = new ApolloServer({ typeDefs, resolvers, playground: true });
-// server.applyMiddleware({ app });
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
