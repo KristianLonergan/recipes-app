@@ -3,13 +3,14 @@ import { useMutation } from '@apollo/react-hooks';
 import { useHistory, Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Heading from '../../UI/Heading/Heading';
 import ErrorAlert from '../../ErrorAlert/ErrorAlert';
 import { SessionContext } from '../../../context/session';
 import { SIGNIN_USER } from '../../../queries';
 import classes from './SignIn.module.css';
 
 const SignIn = props => {
-
   let history = useHistory();
   const { refetch } = useContext(SessionContext);
   const [signinUser, { loading, error }] = useMutation(SIGNIN_USER);
@@ -46,8 +47,8 @@ const SignIn = props => {
   };
 
   return (
-    <div className={[classes.SignIn, 'container pt-md-5'].join(' ')}>
-      <h1 className={classes.Heading}>Sign in</h1>
+    <Container className={[classes.SignIn, 'pt-md-5'].join(' ')}>
+      <Heading label="Sign in" namespaces={classes.Heading} />
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formBasicUsername">
           <Form.Control
@@ -78,8 +79,9 @@ const SignIn = props => {
         <Link to="/signup">Don't have an account ? Sign up here!</Link>
         {error && <ErrorAlert error={error.message} />}
       </Form>
-    </div>
+    </Container>
   );
+
 };
 
 export default SignIn;

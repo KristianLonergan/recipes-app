@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import CKEditor from 'react-ckeditor-component';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ErrorAlert from '../../ErrorAlert/ErrorAlert';
+import Heading from '../../UI/Heading/Heading';
 import classes from './AddRecipe.module.css';
+import { SessionContext } from '../../../context/session';
 import withAuth from '../../../hoc/withAuth';
-
 import {
   ADD_RECIPE,
   GET_ALL_RECIPES,
@@ -16,6 +18,7 @@ import {
 
 const AddRecipe = props => {
   let history = useHistory();
+  const { currentUser } = useContext(SessionContext);
   const [name, setName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [category, setCategory] = useState('Breakfast');
@@ -59,28 +62,34 @@ const AddRecipe = props => {
         category,
         description,
         instructions,
-        username: props.session.getCurrentUser.username
+        username: currentUser.username
       },
       refetchQueries: [
         {
           query: GET_USER_RECIPES,
-          variables: { username: props.session.getCurrentUser.username }
+          variables: { username: currentUser.username }
         }
       ]
-    })
-      .then(({ data }) => {
-        clearState();
-        history.push('/');
-      })
-      .catch();
+    }).then(() => {
+      clearState();
+      history.push('/');
+    });
   };
 
+  const instructionsField = useMemo(() => {
+    return (
+      <CKEditor
+        name="instructions"
+        content={instructions}
+        events={{ change: evt => setInstructions(evt.editor.getData()) }}
+      />
+    );
+  }, [instructions]);
+
   return (
-    <div className={[classes.AddRecipe, 'container pt-md-5'].join(' ')}>
-      <h1 className={classes.Heading}>Add Recipe</h1>
-      <p className={['lead text-center', classes.Paragraph].join(' ')}>
-        * All fields are required
-      </p>
+    <Container>
+      <Heading label="Add Recipe" namespaces="pt-md-5" />
+      <p className={classes.Paragraph}>* All fields are required</p>
 
       <Form onSubmit={handleSubmit} className="pt-md-5">
         <Form.Group controlId="recipeName">
@@ -124,11 +133,7 @@ const AddRecipe = props => {
         </Form.Group>
 
         <Form.Group controlId="exampleForm.ControlTextarea1">
-          <CKEditor
-            name="instructions"
-            content={instructions}
-            events={{ change: evt => setInstructions(evt.editor.getData()) }}
-          />
+          {instructionsField}
         </Form.Group>
 
         <Button
@@ -141,7 +146,7 @@ const AddRecipe = props => {
         </Button>
         {error && <ErrorAlert error={error.message} />}
       </Form>
-    </div>
+    </Container>
   );
 };
 

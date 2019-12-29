@@ -7,7 +7,7 @@ import ButtonLink from '../UI/Button/ButtonLink';
 import { SessionContext } from '../../context/session';
 import classes from './NavBar.module.css';
 
-const NavBar = () => {
+const NavBar = React.memo(() => {
   
   let navItems;
   let history = useHistory();
@@ -24,6 +24,7 @@ const NavBar = () => {
         </Nav>
 
         <Nav>
+          <NavLink label={sessionContext.currentUser.username} to="/profile" />
           <SignOut />
         </Nav>
       </>
@@ -44,7 +45,7 @@ const NavBar = () => {
   }
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar className={classes.NavBar} collapseOnSelect expand="lg" variant="dark" >
       <Navbar.Brand
         className={classes.HomeIcon}
         onClick={() => history.push('/')}
@@ -55,6 +56,6 @@ const NavBar = () => {
       <Navbar.Collapse id="responsive-navbar-nav">{navItems}</Navbar.Collapse>
     </Navbar>
   );
-};
+});
 
 export default NavBar;
