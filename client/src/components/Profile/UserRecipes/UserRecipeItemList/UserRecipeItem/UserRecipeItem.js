@@ -68,7 +68,7 @@ const UserRecipeItem = ({ username, recipe }) => {
     <>
       <Row>
 
-        <Col sm={10}>
+        <Col xs={10}>
           <li>
             <Link to={`/recipes/${recipe._id}`}>
               <h4>{recipe.name}</h4>
