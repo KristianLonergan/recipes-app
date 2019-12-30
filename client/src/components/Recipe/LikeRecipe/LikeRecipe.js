@@ -45,9 +45,8 @@ const LikeRecipe = ({ _id }) => {
 
   useEffect(() => {
 
-    const { username, favourites } = currentUser;
-
-    if (username) {    
+    if (currentUser) {    
+      const { username, favourites } = currentUser;
       const prevLiked = favourites.findIndex(favourite => favourite._id === _id) > -1;
       setLiked(prevLiked);
       setUser(username);

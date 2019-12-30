@@ -6,7 +6,7 @@ import Likes from './Likes/Likes';
 
 const RecipeItem = props => (
   <Row>
-    <Col sm={10}>
+    <Col xs={10}>
       <RecipeImage {...props} />
     </Col>
     <Col>
