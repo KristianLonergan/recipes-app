@@ -8,7 +8,9 @@ import NavBar from './components/NavBar/NavBar';
 import SessionContextProvider from './context/session';
 
 const client = new ApolloClient({
-  uri: 'http://recipe-app-react-apollo.herokuapp.com/graphql',
+  // uri: 'http://localhost:4000/graphql',
+  // uri: 'http://recipe-app-react-apollo.herokuapp.com/graphql',
+  uri: 'https://recipe-app-react-apollo.herokuapp.com/graphql',
   fetchOptions: {
     credentials: 'include'
   },

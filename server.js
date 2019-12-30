@@ -46,7 +46,7 @@ app.use(async (req, res, next) => {
       const currentUser = await jwt.verify(token, process.env.SECRET);
       req.currentUser = currentUser;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   }
   next();
@@ -71,10 +71,12 @@ app.use(
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
+
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+
 const PORT = process.env.PORT || 4444;
 
 app.listen(PORT, () => {
